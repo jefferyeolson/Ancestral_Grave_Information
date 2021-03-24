@@ -1,0 +1,86 @@
+---
+title: "Ancestral_Grave_Sites"
+author: "Jeff Olson"
+date: "3/24/2021"
+output: html_document
+---
+This is a map to the grave sites of two generations of my ancestors. They are buried in Utah and California. 
+```{r echo=TRUE}
+today <- Sys.Date()
+format(today, format="%B %d %Y")
+library(leaflet)
+library(tidyr)
+grave_sites <- data.frame(
+        name = c("Ferron Allred Olson", 
+                 "Donna Lee Jefferies", 
+                 "Julius McCandless Hoggard",
+                 "Beverly Joye Bennett",
+                 "John Ernest Olson",
+                 "Harriet Cynthia Allred",
+                 "Paul Boshard Jefferies",
+                 "Mary Idarene McDonald",
+                 "Glen Eldredge Hoggard",
+                 "Laura Hazel McCandless",
+                 "Clifford Crosby Bennett",
+                 "Dorothy Carr"
+        ),
+        lat = c(40.51058, 
+                40.51058, 
+                40.2328338,
+                40.2328338,
+                40.51091,
+                40.51091,
+                34.1251068,
+                34.1251068,
+                40.23282,
+                40.23282,
+                40.4035471,
+                40.4035471
+        ),
+        lng = c(-112.2558218, 
+                -112.2558218,
+                -111.475682,
+                -111.475682,
+                -112.255814,
+                -112.255814,
+                -118.2524414,
+                -118.2524414,
+                -111.475682,
+                -111.475682,
+                -111.8426843,
+                -111.8426843
+        ),
+        col = c(
+                "red",
+                "yellow",
+                "blue",
+                "green",
+                "red",
+                "red",
+                "yellow",
+                "yellow",
+                "blue",
+                "blue",
+                "green",
+                "green"
+        )
+)
+grave_sites %>%
+        leaflet() %>%
+        addTiles() %>%
+        addCircleMarkers(lng = grave_sites$lng,
+                         lat = grave_sites$lat,
+                         color = grave_sites$col, 
+                         popup = grave_sites$name,
+                         clusterOptions = markerClusterOptions()) %>%
+        addLegend(labels = c("Ferron's Ancestors", 
+                             "Donna's Ancestors", 
+                             "Julius's Ancestors", 
+                             "Beverly's Ancestors"), 
+                  colors = c("red", 
+                             "yellow", 
+                             "blue", 
+                             "green")
+                )
+        
+```
